@@ -75,7 +75,12 @@ public:
 	void simulate_event(const std::string& json);
 	bool collect_data();
 	void refresh_token();
-	
+
+	// Return the current token. It's up to the caller to know
+	// when the token has been refreshed, making the returned
+	// token obsolete.
+	string get_token();
+
 #ifdef HAS_CAPTURE
 	void send_data_request(bool collect = true);
 

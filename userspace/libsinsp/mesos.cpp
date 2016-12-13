@@ -232,6 +232,11 @@ void mesos::init_marathon()
 #endif // HAS_CAPTURE
 }
 
+string mesos::get_token()
+{
+	return m_token;
+}
+
 void mesos::refresh_token()
 {
 #ifdef HAS_CAPTURE
