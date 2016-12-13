@@ -5,6 +5,7 @@
 #pragma once
 
 #include "json/json.h"
+#include "mesos_auth.h"
 #include "mesos_common.h"
 #include "mesos_component.h"
 #include "mesos_http.h"
@@ -16,7 +17,7 @@
 #include <utility>
 #include <unordered_map>
 
-class mesos
+class mesos : public mesos_auth
 {
 public:
 
@@ -76,11 +77,6 @@ public:
 	bool collect_data();
 	void refresh_token();
 
-	// Return the current token. It's up to the caller to know
-	// when the token has been refreshed, making the returned
-	// token obsolete.
-	string get_token();
-
 #ifdef HAS_CAPTURE
 	void send_data_request(bool collect = true);
 
@@ -134,7 +130,6 @@ private:
 private:
 	void init();
 	void init_marathon();
-	void authenticate();
 	void rebuild_mesos_state(bool full = false);
 	void rebuild_marathon_state(bool full = false);
 
@@ -174,10 +169,7 @@ private:
 	bool               m_testing = false;
 	uri::credentials_t m_mesos_credentials;
 	uri::credentials_t m_marathon_credentials;
-	uri::credentials_t m_dcos_enterprise_credentials;
-	string             m_token;
-	bool               m_token_authentication;
-	
+
 	typedef std::unordered_set<std::string> framework_list_t;
 	framework_list_t m_inactive_frameworks;
 	framework_list_t m_activated_frameworks;
