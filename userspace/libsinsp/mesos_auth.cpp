@@ -31,10 +31,16 @@ mesos_auth::mesos_auth(const uri::credentials_t& dcos_enterprise_credentials,
 	  m_last_token_refresh_s(0)
 
 {
+	m_auth_uri = uri("https://localhost/acs/api/v1/auth/login");
 }
 
 mesos_auth::~mesos_auth()
 {
+}
+
+mesos_auth::set_auth_hostname(string &hostname)
+{
+	m_auth_uri.set_host(hostname);
 }
 
 string mesos_auth::get_token()
@@ -45,7 +51,7 @@ string mesos_auth::get_token()
 void mesos_auth::authenticate()
 {
 #ifdef HAS_CAPTURE
-	sinsp_curl auth_request(uri("https://localhost/acs/api/v1/auth/login"), "", "");
+	sinsp_curl auth_request(m_auth_uri, "", "");
 	Json::FastWriter json_writer;
 	Json::Value auth_obj;
 	auth_obj["uid"] = m_dcos_enterprise_credentials.first;

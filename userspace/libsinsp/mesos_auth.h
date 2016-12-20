@@ -35,6 +35,8 @@ public:
 		   int token_refresh_interval = DCOS_ENTERPRISE_TOKEN_REFRESH_S);
 	~mesos_auth();
 
+	void set_auth_hostname(string &hostname);
+
 	void refresh_token();
 
 	// Return the current token. It's up to the caller to know
@@ -48,6 +50,7 @@ protected:
 
 private:
 	uri::credentials_t m_dcos_enterprise_credentials;
+	uri m_auth_uri;
 	int m_token_refresh_interval;
 	time_t m_last_token_refresh_s;
 };
