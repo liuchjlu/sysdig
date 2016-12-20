@@ -27,18 +27,18 @@ along with sysdig.  If not, see <http://www.gnu.org/licenses/>.
 mesos_auth::mesos_auth(const uri::credentials_t& dcos_enterprise_credentials,
 		       int token_refresh_interval)
 	: m_dcos_enterprise_credentials(dcos_enterprise_credentials),
+	  m_auth_uri("https://localhost/acs/api/v1/auth/login"),
 	  m_token_refresh_interval(token_refresh_interval),
 	  m_last_token_refresh_s(0)
 
 {
-	m_auth_uri = uri("https://localhost/acs/api/v1/auth/login");
 }
 
 mesos_auth::~mesos_auth()
 {
 }
 
-mesos_auth::set_auth_hostname(string &hostname)
+void mesos_auth::set_auth_hostname(string &hostname)
 {
 	m_auth_uri.set_host(hostname);
 }
